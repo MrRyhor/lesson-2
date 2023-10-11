@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Task 3</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css?family=Lato:regular,700");
+
+      body {
+        font-family: "Lato";
+        background-image: linear-gradient(to right, #005083, #23704e);
+      }
+      label {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: column;
+      }
+      h1 {
+        color: #000;
+        text-align: center;
+      }
+      input,
+      button,
+      select {
+        padding: 5px 20px;
+        border-radius: 5px;
+        border: 2px solid #000;
+      }
+      button:hover {
+        background: rgb(120, 120, 120);
+        color: #fff;
+        cursor: pointer;
+      }
+      .app {
+        max-width: 700px;
+        margin: 0 auto;
+      }
+      .wrapper {
+        margin-top: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: column;
+        gap: 20px;
+        color: #fff;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+      .container {
+        background-color: #fff;
+        padding: 20px 50px;
+      }
+      .container img {
+        width: 200px;
+      }
+      .container label {
+        color: #000;
+      }
+      .goodCheck {
+        border: 5px solid rgb(152, 211, 64);
+      }
+      .badCheck {
+        border: 5px solid red;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="wrapper">
+        <label v-if="!exerciseItem.length">
+          Let's start the exercise
+          <button type="button" @click="getRandomListItem">Start</button>
+        </label>
+        <template v-if="exerciseItem.length">
+          <div
+            v-for="item in exerciseItem"
+            :key="item.id"
+            class="container"
+            :class="getTranslateBorderColor"
+          >
+            <img :src="item.imgSrc" />
+            <h1>{{item.eng}}</h1>
+            <label>
+              Translate in polish:
+              <input type="text" v-model="translateValue" />
+              <button type="button" @click="checkTheTranslation">Check</button>
+            </label>
+          </div>
+        </template>
+        <div>{{checkMessage}}</div>
+        <button v-if="checkMessage" type="button" @click="getNewGame">
+          Start New Exercise
+        </button>
+      </div>
+    </div>
+    <script>
+      const { createApp } = Vue;
+      const list = [
+        {
+          id: "1",
+          imgSrc:
+            "https://st3.depositphotos.com/1014680/16209/i/450/depositphotos_162094036-stock-photo-used-wooden-table-isolated.jpg",
+          eng: "table",
+          translate: "stol",
+        },
+        {
+          id: "2",
+          imgSrc:
+            "https://static3.depositphotos.com/1001806/140/i/450/depositphotos_1409994-stock-photo-isolated-white-wood-chair.jpg",
+          eng: "chair",
+          translate: "krzeslo",
+        },
+        {
+          id: "3",
+          imgSrc:
+            "https://cdni.autocarindia.com/utils/imageresizer.ashx?n=https://cms.haymarketindia.net/model/uploads/modelimages/Hyundai-Grand-i10-Nios-200120231541.jpg",
+          eng: "car",
+          translate: "samochod",
+        },
+        {
+          id: "4",
+          imgSrc:
+            "https://4.imimg.com/data4/NF/SF/MY-16570734/wooden-window-500x500.jpg",
+          eng: "window",
+          translate: "okno",
+        },
+      ];
+
+      createApp({
+        data() {
+          return {
+            exerciseItem: [],
+            translateValue: null,
+            checkMessage: null,
+          };
+        },
+        methods: {
+          getRandomListItem() {
+            this.translateValue = null
+            this.checkMessage = null
+            const randomIndex = Math.floor(Math.random() * list.length);
+            return this.exerciseItem.push(list[randomIndex]);
+          },
+          checkTheTranslation() {
+            if (
+              this.translateValue &&
+              this.translateValue === this.exerciseItem[0].translate
+            ) {
+              this.checkMessage = "Good!";
+            } else {
+              this.checkMessage = "Bad :(";
+            }
+          },
+          getNewGame() {
+            (this.exerciseItem = []),
+              (this.translateValue = null),
+              (this.checkMessage = null);
+          },
+        },
+        computed: {
+          getTranslateBorderColor() {
+            let translateColor;
+            if (this.checkMessage && this.checkMessage === 'Good!') {
+              translateColor = "goodCheck";
+            } else if (this.checkMessage && this.checkMessage === 'Bad :(') {
+              translateColor = "badCheck";
+            }
+            return translateColor;
+          },
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

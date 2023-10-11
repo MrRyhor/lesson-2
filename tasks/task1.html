@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Task 1</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css?family=Lato:regular,700");
+
+      body {
+        font-family: "Lato";
+        background-image: linear-gradient(to right, #005083, #23704e);
+      }
+      label {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        justify-content: space-between;
+      }
+      input,
+      button {
+        padding: 5px 20px;
+        border-radius: 5px;
+        border: 2px solid #000;
+      }
+      button:hover {
+        background: rgb(120, 120, 120);
+        color: #fff;
+        cursor: pointer;
+      }
+      .app {
+        max-width: 700px;
+        margin: 0 auto;
+      }
+      .wrapper {
+        margin-top: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: column;
+        gap: 20px;
+        color: #fff;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+      .login-ivan {
+        color: #0a9df8;
+      }
+      .login-error {
+        color: rgb(254, 15, 15);
+      }
+      .auth {
+        font-size: 28px;
+      }
+      .btn-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" class="app">
+      <div class="wrapper">
+        <label>
+          Login:
+          <input type="text" v-model="login" />
+        </label>
+        <label>
+          Password:
+          <input type="password" v-model="password" />
+        </label>
+        <div class="btn-wrapper">
+          <button type="button" @click="getAuth">GO</button>
+          <button type="button" @click="clearLogForm">CLEAR</button>
+        </div>
+
+        <div :class="['auth' ,getAuthMessageColor]">{{authMessage}}</div>
+      </div>
+    </div>
+    <script>
+      const { createApp } = Vue;
+
+      const authList = [
+        { login: "Julia", password: "123" },
+        { login: "Max", password: "456" },
+        { login: "green", password: "789" },
+      ];
+
+      createApp({
+        data() {
+          return {
+            login: null,
+            password: null,
+            authMessage: null,
+            isAuth: false,
+          };
+        },
+        methods: {
+          getAuth() {
+            const findObj = authList.find(
+              (obj) =>
+                obj.login.toLowerCase() === this.login.toLowerCase() &&
+                obj.password.toLowerCase() === this.password.toLowerCase()
+            );
+
+            if (findObj) {
+              this.authMessage = "😊";
+            } else {
+              this.authMessage = "Не верно!";
+            }
+          },
+          clearLogForm() {
+            this.login = null;
+            this.password = null;
+            this.authMessage = null;
+          },
+        },
+        computed: {
+          getAuthMessageColor() {
+            const LOGIN_NAME = "Ivan";
+            let resultClass;
+            if (
+              this.login &&
+              this.login.toLowerCase() === LOGIN_NAME.toLowerCase()
+            ) {
+              return (resultClass = "login-ivan");
+            } else {
+              return (resultClass = "login-error");
+            }
+            return resultClass;
+          },
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Task 4</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css?family=Lato:regular,700");
+
+      body {
+        font-family: "Lato";
+        background-image: linear-gradient(to right, #005083, #23704e);
+      }
+      label {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: column;
+      }
+      h1 {
+        color: #000;
+        text-align: center;
+      }
+      input,
+      button,
+      select {
+        padding: 5px 20px;
+        border-radius: 5px;
+        border: 2px solid #000;
+      }
+      button:hover {
+        background: rgb(120, 120, 120);
+        color: #fff;
+        cursor: pointer;
+      }
+      .app {
+        max-width: 700px;
+        margin: 0 auto;        
+      }
+      .wrapper {
+        margin-top: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 20px;
+        color: #fff;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+      span {
+        color: rgb(251, 255, 26);
+      }
+     ul, li {
+        list-style: none;
+     }
+    </style>
+  </head>
+  <body>
+    <div id="app" class="app">
+      <div class="wrapper"> Workers salary list:
+        <ul v-for = '(worker, index) in workersSalaryList' :key = 'worker.id'>
+            <li>{{index + 1}}. <span> Name:</span> {{worker.name}} : {{worker.salary}} <span>zl</span></li>
+        </ul>
+      </div>
+    </div>
+    <script>
+      const { createApp } = Vue;
+
+      const workerList = [
+        { id: "1", name: "Ivanov", salary: 10000 },
+        { id: "2", name: "Petrov", salary: 10200 },
+        { id: "3", name: "Savchenko", salary: 20000 },
+        { id: "4", name: "Bubnov", salary: 13000 },
+        { id: "5", name: "Zelenko", salary: 11000 },
+        { id: "6", name: "Dudko", salary: 14700 },
+      ];
+
+      createApp({
+        computed: {
+          workersSalaryList() {
+            return workerList;
+          },
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Task 2</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css?family=Lato:regular,700");
+
+      body {
+        font-family: "Lato";
+        background-image: linear-gradient(to right, #005083, #23704e);
+      }
+      label {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        justify-content: space-between;
+      }
+      input,
+      button,
+      select {
+        padding: 5px 20px;
+        border-radius: 5px;
+        border: 2px solid #000;
+      }
+      button:hover {
+        background: rgb(120, 120, 120);
+        color: #fff;
+        cursor: pointer;
+      }
+      .app {
+        max-width: 700px;
+        margin: 0 auto;
+      }
+      .wrapper {
+        margin-top: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: column;
+        gap: 20px;
+        color: #fff;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+      .image {
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        padding: 20px 30px;
+      }
+      .image img {
+        width: 150px;
+      }
+      .null {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+      }
+      .null span {
+        font-size: 28px;
+      }
+      .business {
+        background-image: url("https://aviakassa.net/resources/images/cms/news/emirates-i-mercedes-benz-sozdali-roskoshnye-kayuty-pervogo-klassa_1524574873.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+      .economy {
+        background-image: url("https://n1s2.hsmedia.ru/eb/c2/c3/ebc2c3a91dbb18afc38abfb423772a4e/728x485_1_3d7a7980f17ccb05aa8265a00a9a96db@4500x3000_0xac120003_18028360871674553881.jpeg");
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+      .btns {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" class="app">
+      <div class="wrapper">
+        <select v-model="selectValue" @change="getSelectResult">
+          <option disabled value="choose">Choose option</option>
+          <option value="business">Business</option>
+          <option value="economy">Economy</option>
+        </select>
+        <div class="result" :class="getResultClass">
+          <div class="null" v-if="isBusiness === null">
+            <span>☝️</span><br />
+            <p>Please choose the option</p>
+            <p></p>
+          </div>
+          <template v-else-if="isBusiness">
+            <div class="image">
+              <img src="../img/newspaper.png" />
+              <img
+                src="../img/cognac.png"
+                @click="getCognacMessage"
+                style="cursor: pointer"
+              />
+            </div>
+          </template>
+          <template v-else>
+            <div class="image">
+              <img src="../img/chips.png" />
+              <img src="../img/beer.png" />
+            </div>
+          </template>
+        </div>
+        <div>{{cognacMessage}}</div>
+        <template v-if="cognacMessage">
+          <div class="btns">
+            <button type="button">Yes</button>
+            <button type="button">No</button>
+          </div>
+        </template>
+      </div>
+    </div>
+    <script>
+        
+      const { createApp } = Vue;
+
+      createApp({
+        data() {
+          return {
+            selectValue: "choose",
+            selectResult: null,
+            isBusiness: null,
+            cognacMessage: null,
+          };
+        },
+        methods: {
+          getSelectResult() {
+            this.cognacMessage = null;
+            if (this.selectValue && this.selectValue === "business") {
+              return (this.isBusiness = true);
+            } else {
+              return (this.isBusiness = false);
+            }
+            return this.isBusiness;
+          },
+          getCognacMessage() {
+            this.cognacMessage = "Do you want an appetizer?";
+          },
+        },
+        computed: {
+          getResultClass() {
+            let resultClass;
+            if (this.isBusiness === null) {
+              resultClass = "";
+            } else if (this.isBusiness) {
+              resultClass = "business";
+            } else {
+              resultClass = "economy";
+            }
+            return resultClass;
+          },
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

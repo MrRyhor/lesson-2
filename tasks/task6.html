@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Task 6</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css?family=Lato:regular,700");
+
+      body {
+        font-family: "Lato";
+        background-image: linear-gradient(to right, #005083, #23704e);
+      }
+      body * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      label {
+        margin-top: 20px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+      }
+      h2 {
+        color: #0385d5;
+      }
+      h3 {
+        color: #fff;
+      }
+      input,
+      button,
+      select {
+        padding: 5px 20px;
+        border-radius: 5px;
+        border: 2px solid #000;
+      }
+      button:hover {
+        background: rgb(120, 120, 120);
+        color: #fff;
+        cursor: pointer;
+      }
+      .app {
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+      .kitchen-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .waiting-list,
+      .processing-list,
+      .completed-list {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .waiting-container,
+      .processing-container,
+      .completed-container {
+        padding: 10px 10px;
+        margin-top: 20px;
+        min-width: 300px;
+        min-height: 300px;
+        border: 2px solid #fff;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        color: #fff;
+        text-transform: uppercase;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" class="app">
+      <label
+        >New dish:
+        <input type="text" v-model="newDish" />
+        <button type="button" @click="addToWaitingList">Add</button>
+      </label>
+      <div class="kitchen-container">
+        <div class="waiting-container">Waiting dishes:
+          <div v-for="dish in waitingList" :key="dish.id">
+            <div class="waiting-list">
+              <h3>{{dish.name}}</h3>
+              <button type="button" @click="addToProcessingList(dish)">
+                Cook
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="processing-container"> Processing dishes:
+          <div
+            v-for="dish in processingList"
+            class="processing-list"
+            :key="dish.id"
+          >
+            <h3>{{dish.name}}</h3>
+            <button type="button" @click = 'addToCompletedList(dish)'>Cooked</button>
+          </div>
+        </div>
+        <div class="completed-container"> Completed dishes:
+            <div v-for = 'dish in completedList' class="completed-list" :key ='dish.id'>
+                <h3>{{dish.name}}</h3>
+            <button type="button" @click = 'clearCompletedList(dish)'>Completed</button>
+            </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const { createApp } = Vue;
+
+      createApp({
+        data() {
+          return {
+            newDish: null,
+            waitingList: [],
+            processingList: [],
+            completedList: [],
+          };
+        },
+        methods: {
+          addToWaitingList() {
+            this.waitingList.push({ id: Date.now(), name: this.newDish });
+            this.newDish = "";
+          },
+          addToProcessingList(dish) {
+            this.waitingList = this.waitingList.filter(
+              (item) => item.id !== dish.id
+            );
+            this.processingList.push(dish);
+          },
+          addToCompletedList (dish) {
+            this.processingList = this.processingList.filter(item => item.id !== dish.id)
+            this.completedList.push(dish)
+          },
+          clearCompletedList (dish) {
+            this.completedList = this.completedList.filter(item => item.id !== dish.id)
+          }
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>

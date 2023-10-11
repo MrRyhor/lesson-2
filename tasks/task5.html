@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Task 5</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css?family=Lato:regular,700");
+
+      body {
+        font-family: "Lato";
+        background-image: linear-gradient(to right, #005083, #23704e);
+      }
+      body * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      label {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: column;
+      }
+      h2 {
+        color: #0385d5;
+      }
+      h3 {
+        color: #fff;
+      }
+      input,
+      button,
+      select {
+        padding: 5px 20px;
+        border-radius: 5px;
+        border: 2px solid #000;
+      }
+      button:hover {
+        background: rgb(120, 120, 120);
+        color: #fff;
+        cursor: pointer;
+      }
+      img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+      }
+      a {
+        text-decoration: none;
+        color: #fff;
+      }
+      .header {
+        padding: 10px 30px;
+        margin-top: 30px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .description {
+        margin-top: 10px;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" class="app">
+      <div v-for="result in resultList" :key="result.id">
+        <div class="header">
+          <img :src="result.logo" />
+          <div>
+            <div><h3>{{result.name}}</h3></div>
+            <div>
+              <a :href="result.link" target="_blank">{{result.link}}</a>
+            </div>
+          </div>
+        </div>
+        <a :href="result.link">
+          <h2>{{result.title}}</h2>
+        </a>
+        <div class="description">{{result.description}}</div>
+      </div>
+    </div>
+    <script>
+      const { createApp } = Vue;
+
+      const searchList = [
+        {
+          id: "1",
+          logo: "https://w7.pngwing.com/pngs/854/555/png-transparent-vue-js-hd-logo-thumbnail.png",
+          name: "vue.org",
+          link: "https://vuejs.org/",
+          title: "The Progressive JavaScript Framework",
+          description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        },
+        {
+          id: "2",
+          logo: "https://cdn.icon-icons.com/icons2/2699/PNG/512/stackoverflow_tile_logo_icon_167969.png",
+          name: "stackoverflow.com",
+          link: "https://stackoverflow.com/",
+          title: "Every developer has a tab open to Stack Overflow",
+          description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        },
+        {
+          id: "3",
+          logo: "https://w7.pngwing.com/pngs/403/269/png-transparent-react-react-native-logos-brands-in-colors-icon-thumbnail.png",
+          name: "react.dev",
+          link: "https://react.dev/",
+          title: "The library for web and native user interfaces",
+          description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        },
+        {
+          id: "4",
+          logo: "https://nodejs.org/static/images/logo-hexagon-card.png",
+          name: "node.js",
+          link: "https://nodejs.org/",
+          title:
+            "Node.js® is an open-source, cross-platform JavaScript runtime environment",
+          description:
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+        },
+      ];
+
+      createApp({
+        computed: {
+          resultList() {
+            return searchList;
+          },
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>
